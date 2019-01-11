@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_health_fit/flutter_health_fit.dart';
-//import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
+import 'package:ios_health/ios_health.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +16,12 @@ class _MyAppState extends State<MyApp> {
   bool _isAuthorized = false;
   String _basicHealthString = "";
   String _activityData;
+
+
+  final dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+  DateTime dateS;
+  DateTime dateE;
+
 
   @override
   initState() {
@@ -39,24 +46,28 @@ class _MyAppState extends State<MyApp> {
   }
 
   _authorizeHealthOrFit() async {
-    bool isAuthorized = await FlutterHealthFit.authorize;
+    bool isAuthorized = await IosHealth.authorize;
     setState(() {
       _isAuthorized = isAuthorized;
     });
   }
 
   _getUserBasicHealthData() async{
-    var basicHealth = await FlutterHealthFit.getBasicHealthData;
+    var basicHealth = await IosHealth.getBasicHealthData;
     setState(() {
       _basicHealthString = basicHealth.toString();
     });
   }
 
   _getActivityHealthData() async {
-    var steps = await FlutterHealthFit.getSteps;
-    var running = await FlutterHealthFit.getWalkingAndRunningDistance;
-    var cycle = await FlutterHealthFit.geCyclingDistance;
-    var flights = await FlutterHealthFit.getFlights;
+    print(dateFormat.format(dateS));
+    print(dateFormat.format(dateE));
+    String StartDate = dateFormat.format(dateS) + "+0000";
+    String EndDate = dateFormat.format(dateE) + "+0000";
+    var steps = await IosHealth.getStepsByRange(StartDate, EndDate);
+    var running = await IosHealth.getWalkingAndRunningDistanceByRange(StartDate, EndDate);
+    var cycle = await IosHealth.geCyclingDistanceByRange(StartDate, EndDate);
+    var flights = await IosHealth.getFlightsByRange(StartDate, EndDate);
     setState(() {
       _activityData = "steps: $steps\nwalking running: $running\ncycle: $cycle flights: $flights";
     });
@@ -69,15 +80,50 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Plugin example app'),
         ),
-        body: Center(
-          child: Column(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: Container(
+          child:
+//          ListView(
+//            children: <Widget>[
+//              DateTimePickerFormField(
+//                format: dateFormat,
+//                decoration: InputDecoration(labelText: 'Date'),
+//                onChanged: (dt) => setState(() => date = dt),
+//              ),
+//              SizedBox(height: 16.0),
+//              TimePickerFormField(
+//                format: timeFormat,
+//                decoration: InputDecoration(labelText: 'Time'),
+//                onChanged: (t) => setState(() => time = t),
+//              ),
+//              SizedBox(height: 16.0),
+//              Text('date.toString(): $date', style: TextStyle(fontSize: 18.0)),
+//              SizedBox(height: 16.0),
+//              Text('time.toString(): $time', style: TextStyle(fontSize: 18.0)),
+//            ],
+//          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+
               Text('Authorized: $_isAuthorized\n'),
               RaisedButton(child: Text("Authorize Health"), onPressed: (){_authorizeHealthOrFit();
               }),
               RaisedButton(child: Text("Get basic data"), onPressed: _getUserBasicHealthData),
+
               Text('Basic health: $_basicHealthString\n'),
+
+              DateTimePickerFormField(
+                format: dateFormat,
+                decoration: InputDecoration(labelText: 'StartDate'),
+                onChanged: (dt) => setState(() => dateS = dt),
+              ),
+              DateTimePickerFormField(
+                format: dateFormat,
+                decoration: InputDecoration(labelText: 'EndDate'),
+                onChanged: (dt) => setState(() => dateE = dt),
+              ),
+
+
               RaisedButton(child: Text("Get Activity Data"), onPressed: _getActivityHealthData),
               Text('\n$_activityData\n'),
             ],

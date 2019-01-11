@@ -1,5 +1,9 @@
-name: flutter_health_fit_example
-description: Demonstrates how to use the flutter_health_fit plugin.
+name: ios_health_example
+description: Demonstrates how to use the ios_health plugin.
+publish_to: 'none'
+
+environment:
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -12,8 +16,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  flutter_health_fit:
+  datetime_picker_formfield: ^0.1.7
+  ios_health:
     path: ../
 
 # For information on the generic Dart part of this file, see the

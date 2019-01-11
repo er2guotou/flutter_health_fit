@@ -1,12 +1,13 @@
-# flutter_health_fit
+# ios_health
 
-A flutter plugin for using Apple HealthKit and Google Fit.
+A new Flutter plugin for ios health kit
 
 ## Getting Started
-* Add to pubspec.yaml: `flutter_health_fit`.
+* Add to pubspec.yaml: ios_health
+* Add to ios/Podfile: platform :ios, '10.0'  
+
 * Open your iOS Xcode project (Runner.xcworkspace)
 * Capabilities: Enable HealthKit
-
 * Open the `info.plist`
 * Add: NSHealthUpdateUsageDescription, NSHealthShareUsageDescription.
  
