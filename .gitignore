@@ -1,21 +1,7 @@
 .DS_Store
-.atom/
 .dart_tool/
-.idea
-.vscode/
+
 .packages
 .pub/
-build/
-ios/.generated/
-packages
-.flutter-plugins
 pubspec.lock
-
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history
-
+build/

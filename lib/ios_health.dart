@@ -55,7 +55,7 @@ class IosHealth {
 
     try {
       result = await _channel.invokeMethod(
-          'getActivityDataByDateRange',
+          'getActivity',
           {
             "name": activityType
                 .toString()

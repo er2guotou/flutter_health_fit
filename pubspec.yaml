@@ -2,7 +2,7 @@ name: ios_health
 description: A new Flutter plugin for ios health kit
 version: 0.0.1
 author: Tom<er-guotou@163.com>
-homepage: None
+homepage: https://github.com/er2guotou/flutter_health_fit
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
